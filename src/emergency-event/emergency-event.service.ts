@@ -57,10 +57,7 @@ export class EmergencyEventService {
     return this.repo.save(emergencyEvent);
   }
 
-  async update(
-    id: any,
-    updateEmergencyEventDto: UpdateEmergencyEventDto,
-  ): Promise<EmergencyEvent> {
+  async update(id: any, dto: UpdateEmergencyEventDto): Promise<EmergencyEvent> {
     const existingEvent = await this.repo.findOne(id);
 
     if (!existingEvent) {
@@ -71,7 +68,7 @@ export class EmergencyEventService {
       { id },
       {
         ...existingEvent,
-        ...updateEmergencyEventDto,
+        ...dto,
       },
     );
 
