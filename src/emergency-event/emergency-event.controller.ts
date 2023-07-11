@@ -40,17 +40,17 @@ export class EmergencyEventController {
   @Post(':id/status')
   async changeStatus(
     @Param('id') id: number,
-    @Body() body: ChangeStatusDto,
+    @Body() dto: ChangeStatusDto,
   ): Promise<EmergencyEvent> {
-    return await this.service.changeStatus(id, body.status);
+    return await this.service.changeStatus(id, dto.status);
   }
 
   @Put(':id')
   update(
     @Param('id') id: number,
-    @Body() updateEmergencyEventDto: UpdateEmergencyEventDto,
+    @Body() dto: UpdateEmergencyEventDto,
   ): Promise<EmergencyEvent> {
-    return this.service.update(id, updateEmergencyEventDto);
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
