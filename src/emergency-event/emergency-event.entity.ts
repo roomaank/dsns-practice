@@ -1,12 +1,7 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from 'src/model/entities/base-entity';
-import { Category } from 'src/category/category.entity';
+import { EmergencyEventType } from 'src/model/emergency-event-type.enum';
+import { EntityStatus } from 'src/model/entity-status.enum';
 
 @Entity({ name: 'emergency_event' })
 export class EmergencyEvent extends BaseEntity {
@@ -16,19 +11,28 @@ export class EmergencyEvent extends BaseEntity {
   @Column()
   name: string;
 
+  @Column('enum', { enum: EntityStatus, default: EntityStatus.ACTIVE })
+  status: EntityStatus;
+
   @Column()
   description: string;
 
   @Column({ nullable: true, type: 'numeric' })
-  latitude: string;
+  latitude: number;
 
   @Column({ nullable: true, type: 'numeric' })
-  longitude: string;
+  longitude: number;
 
   @Column()
   city: string;
 
-  @ManyToOne(() => Category, (category) => category.emergencyEvents)
-  @JoinColumn({ name: 'categoryId' })
-  category: Category;
+  @Column()
+  severity: number;
+
+  @Column({
+    type: 'enum',
+    enum: EmergencyEventType,
+    nullable: false,
+  })
+  type: EmergencyEventType;
 }
