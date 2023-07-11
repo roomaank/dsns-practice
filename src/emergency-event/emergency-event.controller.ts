@@ -13,15 +13,16 @@ import { CreateEmergencyEventDto } from './dto/create-emergency-event.dto';
 import { UpdateEmergencyEventDto } from './dto/update-emergency-event.dto';
 import { GetCommunitiesDto } from './dto/get-emergency-event.dto';
 import { ChangeStatusDto } from './dto/change-status.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { EmergencyEvent } from './emergency-event.entity';
 
 @Controller('emergency-event')
+@ApiTags('Emergency-Event')
 export class EmergencyEventController {
   constructor(private readonly service: EmergencyEventService) {}
 
   @Get()
-  getAll(@Query() filter: GetCommunitiesDto): Promise<EmergencyEvent[]> {
+  getAll(@Body() filter: GetCommunitiesDto): Promise<EmergencyEvent[]> {
     return this.service.get(filter);
   }
 
@@ -31,10 +32,8 @@ export class EmergencyEventController {
   }
 
   @Post()
-  create(
-    @Body() createEmergencyEventDto: CreateEmergencyEventDto,
-  ): Promise<EmergencyEvent> {
-    return this.service.create(createEmergencyEventDto);
+  create(@Body() dto: CreateEmergencyEventDto): Promise<EmergencyEvent> {
+    return this.service.create(dto);
   }
 
   @ApiBody({ type: ChangeStatusDto })
