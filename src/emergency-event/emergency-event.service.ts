@@ -57,20 +57,17 @@ export class EmergencyEventService {
     return this.repo.save(emergencyEvent);
   }
 
-  async update(id: any, dto: UpdateEmergencyEventDto): Promise<EmergencyEvent> {
-    const existingEvent = await this.repo.findOne(id);
+  async update(
+    id: number,
+    dto: UpdateEmergencyEventDto,
+  ): Promise<EmergencyEvent> {
+    const existingEvent = await this.repo.findOne({ where: { id } });
 
     if (!existingEvent) {
       throw new NotFoundException('Emergency event not found');
     }
 
-    await this.repo.update(
-      { id },
-      {
-        ...existingEvent,
-        ...dto,
-      },
-    );
+    await this.repo.update({ id }, { ...existingEvent, ...dto });
 
     return this.repo.findOne({ where: { id } });
   }
